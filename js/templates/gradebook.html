@@ -1,0 +1,43 @@
+<!-- <div ng-controller="GradebookController"> -->
+<div>
+	<h1>Gradebook</h1>
+
+	<div class="row">
+		<div class="col-md-8">
+			<input type="text" ng-model="searchTerm">
+			<!-- shared scope directive -->
+			<student-table></student-table>
+		</div>
+
+		<div class="col-md-4">
+			<h4>Summary</h4>
+			<table class="table">
+				<tbody>
+					<tr>
+						<td>Average</td>
+						<td>{{gradeAverage}}</td>
+					</tr>
+				</tbody>
+			</table>
+
+			<h4>Add Grade</h4>
+			<form role="form" ng-submit="addStudent()">
+				<div class="form-group">
+					<label>First Name</label>
+					<input ng-model="first" type="text" class="form-control">
+				</div>
+				<div class="form-group">
+					<label>Last Name</label>
+					<input ng-model="last" type="text" class="form-control">
+				</div>
+				<div class="form-group">
+					<label>Grade (out of 20)</label>
+					<input ng-model="grade" type="number" class="form-control">
+				</div>
+				<div class="form-group">
+					<input type="submit" class="btn btn-primary">
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

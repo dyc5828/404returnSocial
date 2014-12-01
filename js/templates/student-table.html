@@ -1,0 +1,15 @@
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>Grade</th>
+		</tr>
+	</thead>
+	<tbody>
+		<!-- <tr grade-status-indicator="{{student.grade | percentage:20}}" ng-repeat="student in students | filter:searchTerm | orderBy:'grade':true"> -->
+		<tr grade-status-indicator="student.grade/20*100" ng-repeat="student in students | filter:searchTerm | orderBy:'grade':true">
+			<td>{{student.first}} {{student.last}}</td>
+			<td>{{student.grade | percentage:20}}</td>
+		</tr>
+	</tbody>
+</table>
