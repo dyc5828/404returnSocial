@@ -7,7 +7,7 @@ var config = window.config || {};
 /*
  * BASE DIR
  */
-config.DIR = 'http://localhost:8080/itp404/final/'; //localhost
+config.DIR = 'http://localhost:8080/itp404/returnSocial/'; //localhost
 // config.DIR = 'http://itp404.dchenportal.com/'; //dchenportal
 
 

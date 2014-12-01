@@ -7,7 +7,7 @@
 /*
  * BASE DIR
  */
-const DIR = 'http://localhost:8080/itp404/final/'; //localhost
+const DIR = 'http://localhost:8080/itp404/returnSocial/'; //localhost
 // const DIR = 'http://itp404.dchenportal.com/'; //dchenportal
 
 /*

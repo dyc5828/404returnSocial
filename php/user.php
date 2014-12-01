@@ -26,7 +26,7 @@ class user
 
 		$con = user::connectDB();
 
-		$create_sql = "INSET INTO users(facebook) VALUES ($fbid)"
+		$create_sql = "INSET INTO users(facebook) VALUES ($fbid)";
 		$create_result = mysqli_query($con,$create_sql);
 		if(!$create_result) {
 			exit('create error:'.mysqli_error($con));
@@ -50,7 +50,7 @@ class user
 		$user_known = $user_result->num_rows;
 		// echo $user_known;
 
-		if ($user_knwon == 0) {
+		if ($user_known == 0) {
 			echo 'create user'.L;
 		} else {
 			echo 'user found'.L;
