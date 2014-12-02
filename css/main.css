@@ -2,7 +2,7 @@
  * GENERAL CSS
  */
 ::-webkit-scrollbar { 
-    display: none; 
+    /*display: none; */
 }
 * {
 	margin: 0;
@@ -17,7 +17,7 @@ article, aside, header, footer, nav, section, main {
 	display: block;
 }
 img {
-	max-width: 400px;
+	/*max-width: 400px;*/
 }
 a {
 	text-decoration: none;
@@ -95,7 +95,10 @@ login #social-connect{
 login .login-title {
 	font-weight: bold;
 	font-size: 20px;
-	margin: 15px 0 10px;
+	margin: 5px 0 10px;
+}
+login .login-fb {
+	margin-bottom: 20px;
 }
 login .social-input {
 	width: 200px;
@@ -109,11 +112,11 @@ login img.login-icon {
 	float: left;
 }
 login input {
-	width: 150px;
+	width: 146px;
 	float: left;
 	border: none;
 	background-color: #EEE;
-	padding: 4px;
+	padding: 4px 6px;
 	margin: 4px 3px;
 }
 login input:focus {
@@ -138,8 +141,59 @@ login input[type="submit"]:focus {
 /*
  * MAIN CSS
  */
-
-
+main .item {
+	min-width: 350px;
+	max-width: 850px;
+	margin: 10px;
+	padding: 14px;
+	background-color: #FFF;
+	border: solid 1px #DDD;
+}
+main .item-text {
+	max-width: 490px;
+	min-width: 350px;
+	margin-right: 10px;
+	margin-bottom: 10px;
+	float: left;
+}
+main .item-top {
+	min-width: 350px;
+	margin-bottom: 10px; 
+}
+main .item-icon {
+	width: 60px;
+	height: 60px;
+	padding-right: 10px;
+	float: left;
+}
+main img.icon-img {
+	width: 60px;
+	height: 60px;
+}
+main .item-title {
+	font-size: 24px;
+	padding-left: 70px;
+}
+main .item-date {
+	margin-top: 3px;
+	padding-left: 70px;
+}
+main .item-msg {
+	/*float: left;*/
+	font-size: 19px;
+}
+main .item-aux {
+	/*float: left;*/
+	margin-top: 10px
+}
+main .item-img {
+	width: 350px;
+	float: right;
+}
+main img.img-img {
+	width: 350px;
+	display: block;
+}
 /*
  * FOOTER CSS
  */

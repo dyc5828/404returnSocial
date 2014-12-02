@@ -1,12 +1,12 @@
 /*
- * HELPER JS FILE - require jquery
+ * HELPER JS - require jquery
  */
-console.log('helper.js');
+// console.log('helper.js');
 var helper = window.helper || {};
 
 // general helpers
 helper.serialize = function(data) {
-	console.log('serialize');
+	// console.log('serialize');
 	return JSON.stringify(data);
 }
 
@@ -28,18 +28,19 @@ helper.ngSvc = function(name) {
 }
 
 // ajax
-helper.getAjax = function(url,data) {
-	console.log('getAjax');
+helper.getAjax = function(url,data,type) {
+	// console.log('getAjax');
 
 	var dataType = typeof data;
 	// console.log(dataType);
 	if(!data) {
+		// console.log('no data');
 		data = 'none';
 	} else if((dataType == 'string') || (dataType == 'number')) {
-		console.log('basic');
+		// console.log('basic');
 		data = data;
 	} else {
-		console.log('not basic');
+		// console.log('not basic');
 		data = helper.serialize(data);
 	}
 	// console.log(data);
@@ -50,18 +51,15 @@ helper.getAjax = function(url,data) {
         data: {
         	data: data,
         },
-        // dataType: 'JSON',
+        dataType: type,
     });
 }
 
 // database
-helper.checkUser = function(fbUserId) {
-	console.log('checkUser');
+helper.checkUser = function(fbUserId,callback) {
+	// console.log('checkUser');
 
-	var ajax = helper.getAjax('php/user.php',fbUserId);
+	var ajax = helper.getAjax('php/check-user.php',fbUserId,'JSON');
 
-	ajax.done(function(response) {
-		console.log('ajax done');
-		console.log(response);
-	});
+	ajax.done(callback);
 }

@@ -20,7 +20,7 @@ include_once 'php/config.php'; // must have
 	<!-- required js -->
 	<script src="js/config.js"></script>
 	<script src="js/helper.js"></script>
-	<script src="js/facebook-api.js"></script>
+	<script src="js/facebook-lib.js"></script>
 	<!-- page js -->
 	<script src="js/main.js"></script>
 
@@ -51,8 +51,8 @@ include_once 'php/config.php'; // must have
 	<div id="twitter-results"></div>
 </ngtest><!-- angular test -->
 	
-<header>
-	<div class="container" ng-controller="HeaderController">
+<header ng-controller="HeaderCtrl">
+	<div class="container">
 		<!-- header -->
 
 		<div id="user">
@@ -63,7 +63,7 @@ include_once 'php/config.php'; // must have
 					onlogin="checkLoginState();">
 				</fb:login-button>
 			</div><!-- userbtn -->
-			<a href="#/connect">
+			<a ng-href="#/connect">
 				<div id="username">{{username}}</div>
 			</a>
 			<div class="clear"></div>
@@ -84,49 +84,38 @@ include_once 'php/config.php'; // must have
 </header>
 
 <login>
-	<div class="container" ng-controller="LoginController">
+	<div class="container" ng-controller="LoginCtrl">
 		<!-- login -->
-		
+
 		<div id="social-connect">
-			<div nng-if="loggedIn" class="h/idden">
+			<div ng-class="{hidden: !fbLog}">
 				<div class="login-title">
 					Login with Facbook
 				</div>
-				<fb:login-button
-					scope="public_profile,email,read_stream"
-					autologoutlink="true"
-					onlogin="checkLoginState();"
-					data-size="large"
-					ndata-max-rows="1"
-					ndata-show-faces="true">
-				</fb:login-button>
+				<div class="login-fb">
+					<fb:login-button
+						scope="public_profile,email,read_stream"
+						onlogin="checkLoginState();"
+						data-size="large"
+						ndata-max-rows="1"
+						ndata-show-faces="true">
+					</fb:login-button>
+				</div>
 			</div><!-- facebookEnable -->
 
 			<div class="login-title">
 				Connect More
 			</div>
 
-			<form role="form" ng-submit="loginSubmit()">
-				<div class="social-input hidden"><!-- hidden -->
-					<label for="facebookid">
-						<img class="login-icon" src="asset/facebook.png"/>
-						<!-- {{facebookid}} -->
-					</label>
-					<input
-						id="facebookid"
-						ng-model="facebookid"
-						name= "facebook"
-						type="text"
-					/>
-				</div><!-- social-input -->
+			<form role="form" ng-submit="connect()">
 				<div class="social-input">
 					<label for="twitterid">
 						<img class="login-icon" src="asset/twitter.png"/>
-						<!-- {{twitterid}} -->
+						<!-- {{userids.twitterid}} -->
 					</label>
 					<input
 						id="twitterid"
-						ng-model="twitterid"
+						ng-model="userids.twitterid"
 						name= "twitter"
 						type="text"
 					/>
@@ -134,11 +123,11 @@ include_once 'php/config.php'; // must have
 				<div class="social-input">
 					<label for="instagramid">
 						<img class="login-icon" src="asset/instagram.png"/>
-						<!-- {{instagramid}} -->
+						<!-- {{userids.instagramid}} -->
 					</label>
 					<input
 						id="instagramid"
-						ng-model="instagramid"
+						ng-model="userids.instagramid"
 						name= "instagram"
 						type="text"
 					/>
@@ -146,11 +135,11 @@ include_once 'php/config.php'; // must have
 				<div class="social-input">
 					<label for="pinterestid">
 						<img class="login-icon" src="asset/pinterest.png"/>
-						{{pinterestid}}
+						<!-- {{userids.pinterestid}} -->
 					</label>
 					<input
 						id="pinterestid"
-						ng-model="pinterestid"
+						ng-model="userids.pinterestid"
 						name= "pinterest"
 						type="text"
 					/>
@@ -172,18 +161,37 @@ include_once 'php/config.php'; // must have
 </login>
 
 <main>
-	<div class="container">
-		main
-		<div class="item">
-			<div class="item-icon">
-				<img class="icon-img" src="asset/facebook.png"/>
-			</div><!-- item-icon -->
-			<div class="item-title">Title</div>
-			<div class="item-date">Date</div>
-			<div class="item-desc">Desc</div>
-			<div class="item-img">
-				<img class="img-img" src="car.jpg"/>
+	<div class="container" ng-controller="FeedCtrl">
+		<!-- main -->
+
+		<div class="item" ng-repeat="item in items | orderBy:'date':true">
+
+			<div class="item-text">
+
+				<div class="item-top">
+
+					<div class="item-icon">
+						<img ng-click="test()" class="icon-img" src="asset/facebook.png"/>
+					</div><!-- item-icon -->
+					<div class="item-title">{{item.title}}</div>
+					<div class="item-date">{{item.date}}</div>
+
+					<div class="clear"></div>
+				</div><!-- item-top -->
+
+				<div class="item-msg">
+					{{item.message}}
+				</div>
+				<div class="item-aux">Aux info</div>
+
+				<div class="clear"></div>
+			</div><!-- item-text -->
+
+			<div class="item-img" ng-if="item.image">
+				<img class="img-img" ng-src="{{item.image}}"/>
 			</div><!-- item-img-->
+
+			<div class="clear"></div>
 		</div><!-- item -->
 
 	</div><!-- container -->
@@ -191,10 +199,7 @@ include_once 'php/config.php'; // must have
 
 <footer>
 	<div class="container">
-		footer
-
-
-
+		<!-- footer -->
 	</div><!-- container -->
 </footer>
 
