@@ -19,6 +19,7 @@ statusChangeCallback = function(response) {
 		fbSvc.setToken(response.authResponse.accessToken);
 
 		helper.updateSC('LoginCtrl','fbLog', false);
+		helper.updateSC('LoginCtrl','userids.twitterid','bacon');
 
 		fbSvc.getMe(function(response) {
 			// console.log(response);
@@ -30,6 +31,14 @@ statusChangeCallback = function(response) {
 			helper.checkUser(response.id, function(response) {
 				// console.log('callback');
 				// console.log(response);
+
+				var userids = {
+					twitterid: response.twitter,
+					instagramid: response.instagram,
+					pinterestid: response.pinterest
+				};
+
+				helper.updateSC('LoginCtrl','userids',userids);
 
 				userSvc.setID(response.id);
 

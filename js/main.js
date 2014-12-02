@@ -102,13 +102,16 @@ app.controller('LoginCtrl', function($window, $document, $rootScope, $scope, use
 		// push changes to rootScope
 		$rootScope.$broadcast('userReady', $scope.userids);
 		// console.log($rootScope.userReady);
+		// console.log($scope.userReady);
+		// console.log($rootScope.userids);
+		console.log($scope.userids);
 
 		// route to feed
 		$window.location.href = '#/lol';
 	}
 });
 
-app.controller('FeedCtrl', function($scope, build, user, facebook, twitter, pinterest, instagram) {
+app.controller('FeedCtrl', function($rootScope, $scope, build, user, facebook, twitter, pinterest, instagram) {
 	//
 	$scope.feeds = [];
 	$scope.posts = [];
@@ -117,24 +120,35 @@ app.controller('FeedCtrl', function($scope, build, user, facebook, twitter, pint
 	// listen for rootScope broadcast
 	$scope.$on('userReady', function(response) {
 		console.log('userReady changed');
-		// console.log(response);
+		console.log(response);
+		// console.log($rootScope.userReady);
+		// console.log($scope.userReady);
+		// console.log($rootScope.userids);
+		console.log($scope.userids);
+
+		var user = {
+			twitter: $scope.userReady.twitterid,
+			instagram: $scope.userReady.instagramid,
+			pinterest: $scope.userReady.pinterestid,
+		}
 
 		// rebuild posts
+		// build.getFeeds(user);
 	},true);
 
 	$scope.$watch('posts', function() {
-		console.log('posts changed');
+		// console.log('posts changed');
 		$scope.items = build.setItems($scope.posts,$scope.feeds);
 	},true);
 
 	$scope.$watch('feeds', function() {
-		console.log('feeds changed');
+		// console.log('feeds changed');
 		$scope.items = build.setItems($scope.posts,$scope.feeds);
 	},true);
 
 	$scope.$watch('items', function() {
-		console.log('items updated');
-		console.log($scope.items);
+		// console.log('items updated');
+		// console.log($scope.items);
 	})
 
 	$scope.feeds = build.getFeed();
@@ -556,8 +570,9 @@ app.factory('build', function($q, facebook, twitter, instagram, pinterest, user)
 	}
 
 	function getFeeds(user) {
-		// console.log(user);
-		var feeds = [];
+		console.log(user);
+		// wipe array
+		data.feed.length = 0;
 
 		var twitterid = user.twitter;
 		var instagramid = user.instagram;
@@ -566,10 +581,6 @@ app.factory('build', function($q, facebook, twitter, instagram, pinterest, user)
 		var twitterPromise;
 		var pinterestPromise;
 		var instagramPromise;
-
-		var rd1;
-		var rd2;
-		var rd3;
 
 		if(twitterid != null && twitterid != '') {
 			console.log('get twitter');
