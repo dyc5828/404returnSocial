@@ -1,11 +1,11 @@
 /* Facebook API Library*/
-// console.log('Facebook API Library');
+console.log('Facebook API Library');
 
 statusChangeCallback = function(response) {
     console.log('statusChangeCallback');
     // console.log(response);
 
-    var fbSvc = angular.element(document.body).injector().get('facebook');
+    var fbSvc = helper.ngSvc('facebook');
     // console.log(fbSvc);
 
     fbSvc.setToken(response.authResponse.accessToken);
@@ -19,10 +19,12 @@ statusChangeCallback = function(response) {
 		console.log('fb connected');
 		var userid;
 
-		fbSvc.getUsername(function(response) {
+		fbSvc.getMe(function(response) {
 			// console.log(response);
 			helper.updateSC('HeaderController','username',response.first_name);
+			
 			helper.checkUser(response.id);
+			// helper.checkUser(response);
 		});
 
 		fbSvc.getPosts(function(response) {
@@ -63,19 +65,32 @@ fbInit = function(app) {
 	console.log('facebook.init api.js');
 	// console.log(app.id, app.ver);;
 
-	window.fbAsyncInit = function() {
-		FB.init({
-			appId      : app.id, // app id
-			cookie     : true,  // enable cookies to allow the server to access the session
-			xfbml      : true,  // parse social plugins on this page
-			version    : app.ver // use version 2.2
-		});
+	// window.fbAsyncInit = function() {
+	// 	console.log('fb async init');
+	// 	FB.init({
+	// 		appId      : app.id, // app id
+	// 		cookie     : true,  // enable cookies to allow the server to access the session
+	// 		xfbml      : true,  // parse social plugins on this page
+	// 		version    : app.ver // use version 2.2
+	// 	});
 
-		FB.getLoginStatus(function(response) {
-			console.log('getLoginStatus');
-			statusChangeCallback(response);
-		});
-	};
+	// 	FB.getLoginStatus(function(response) {
+	// 		console.log('getLoginStatus');
+	// 		statusChangeCallback(response);
+	// 	});
+	// };
+
+	FB.init({
+		appId      : app.id, // app id
+		cookie     : true,  // enable cookies to allow the server to access the session
+		xfbml      : true,  // parse social plugins on this page
+		version    : app.ver // use version 2.2
+	});
+
+	FB.getLoginStatus(function(response) {
+		console.log('getLoginStatus');
+		statusChangeCallback(response);
+	});
 }
 
 // getApi = function(token) {

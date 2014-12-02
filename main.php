@@ -11,6 +11,7 @@ include_once 'php/config.php'; // must have
 	<script src="js/angular.min.js"></script>
 	<script src="js/angular-route.js"></script>
 	<!-- facebook sdk -->
+	<script nsrc="js/facebook-sdk-async.js"></script>
 	<script src="http://connect.facebook.net/en_US/sdk.js"></script>
 	<!-- jquery and dependencies -->
 	<script src="<?=JQ?>"></script>

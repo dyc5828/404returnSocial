@@ -1,6 +1,7 @@
 /*
  * CONFIG JS FILE
  */
+ console.log('config.js');
 var config = window.config || {};
 
 

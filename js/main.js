@@ -1,8 +1,10 @@
 /*
  * NG APP social
  */
-// console.log('main.js');
+console.log('main.js');
 var app = angular.module('social', ['ngRoute']);
+var lol = window.lol;
+lol = 'test';
 
 /*
  * CONFIG
@@ -142,8 +144,8 @@ app.factory('facebook', function($window) {
 	}
 
 	// getter func
-	function getUsername(callback) {
-		console.log('getUsername');
+	function getMe(callback) {
+		console.log('getMe');
 		FB.api('/me', callback);
 	}
 
@@ -157,7 +159,7 @@ app.factory('facebook', function($window) {
 	// factory return
 	return {
 		setToken: setToken,
-		getUsername: getUsername,
+		getMe: getMe,
 		getPosts: getPosts,
 	}
 });

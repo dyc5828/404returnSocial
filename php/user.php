@@ -17,8 +17,14 @@ class user
 		echo 'captureUser<br>'.$fbif.L;
 
 		$con = user::connectDB();
-		$capture_sql = "SELECT id FROM users WHERE facebook = $fbid";
+
+		$capture_sql = "SELECT * FROM users WHERE facebook = $fbid";
 		$capture_result = mysqli_query($con,$capture_sql);
+		if(!$capture_result) {
+			exit ('user capture error'.mysqli_error($con));
+		}
+
+		return $capture_result;
 	}
 
 	public static function createUser($fbid) {
@@ -45,12 +51,12 @@ class user
 		if(!$user_result) {
 			exit('user error:'.mysqli_error($con));
 		}
-		// print_r($user_result);
+		print_r($user_result);
 
 		$user_known = $user_result->num_rows;
 		// echo $user_known;
 
-		if ($user_known == 0) {
+		if($user_known == 0) {
 			echo 'create user'.L;
 		} else {
 			echo 'user found'.L;
@@ -68,7 +74,11 @@ class user
 // echo user::$data; //error private
 // echo user::test();
 
-$data = $_GET['data'];
+if(isset($_GET['data'])) {
+	$data = $_GET['data'];
+} else {
+	$data = 'none';
+}
 // echo $data;
 
 user::checkUserFacebook($data);
