@@ -16,7 +16,6 @@ if(isset($_GET['id'])) {
 	// print_r($user);
 
 	user::updateUser($user);
-
 	// echo 'success';
 	exit;
 } else {

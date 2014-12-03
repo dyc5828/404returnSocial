@@ -6,12 +6,15 @@ include_once 'php/config.php'; // must have
 <head>
 	<title>ITP404 Final</title>
 
+	<!-- META -->
+	<meta charset="utf-8">
+
 	<!-- JS SRC -->
 	<!-- ng framework -->
 	<script src="js/angular.min.js"></script>
 	<script src="js/angular-route.js"></script>
 	<!-- facebook sdk -->
-	<script src="http://connect.facebook.net/en_US/sdk.js"></script>
+	<script src="http://connect.facebook.net/en_US/all.js"></script>
 	<!-- jquery and dependencies -->
 	<script src="<?=JQ?>"></script>
 	<script src="js/jquery.xml2json.js"></script>
@@ -19,8 +22,14 @@ include_once 'php/config.php'; // must have
 	<script src="js/config.js"></script>
 	<script src="js/helper.js"></script>
 	<script src="js/facebook-lib.js"></script>
-	<!-- page js -->
-	<script src="js/main.js"></script>
+	<!-- ng app js -->
+	<script src="js/app.js"></script>
+	<script src="js/userSvc.js"></script>
+	<script src="js/buildSvc.js"></script>
+	<script src="js/facebookSvc.js"></script>
+	<script src="js/twitterSvc.js"></script>
+	<script src="js/instagramSvc.js"></script>
+	<script src="js/pinterestSvc.js"></script>
 
 	<!-- FAVICON -->
 	<link rel="icon" type="image/png" href="asset/feedStack.png"/>
@@ -28,6 +37,10 @@ include_once 'php/config.php'; // must have
     <!-- CSS LINK-->
 	<link rel="stylesheet" href="css/main.css"/>
 
+	<!-- PAGE CSS -->
+	<style></style>
+
+	<!-- PAGE JS -->
 	<script>
 
 	jQuery(document).ready(function() {
@@ -37,7 +50,7 @@ include_once 'php/config.php'; // must have
     </script>
 
 </head>
-<body>
+<body ng-controller="BkgdCtrl"><!-- Background Ctrl -->
 <div id="fb-root"></div><!-- fb required -->
 
 <ngtest class="hidden" ng-controller="TestCtrl">
@@ -47,8 +60,11 @@ include_once 'php/config.php'; // must have
 	</form>
 	<div id="twitter-results"></div>
 </ngtest><!-- angular test -->
-	
-<header ng-controller="HeaderCtrl">
+
+<!-- CTRL -->
+<div id="wrap">
+
+<header>
 	<div class="container">
 		<!-- header -->
 
@@ -89,5 +105,7 @@ include_once 'php/config.php'; // must have
 	</div><!-- container -->
 </footer>
 
+</div><!-- wrap -->
+<!-- END CTRL -->
 </body>
 </html>

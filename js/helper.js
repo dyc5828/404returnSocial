@@ -9,6 +9,13 @@ helper.serialize = function(data) {
 	// console.log('serialize');
 	return JSON.stringify(data);
 }
+helper.wipeArray = function(array) {
+	while (array.length) {
+		array.pop();
+	}
+
+	return array;
+}
 
 // angular helpers
 helper.ngSC = function(ctrl) {
@@ -22,12 +29,21 @@ helper.updateSC = function(ctrl,key,val) {
 	scope[key] = val;
 	// console.log(scope);
 	scope.$apply();
+
+	return scope[key];
 }
 helper.ngSvc = function(name) {
 	return angular.element(document.body).injector().get(name);
 }
 helper.ngRtSC = function() {
 	return angular.element(document).scope()
+}
+helper.updateRtSC = function(key,val) {
+	var rootScope = helper.ngRtSC();
+	rootScope[key] = val;
+	rootScope.$apply();
+
+	return rootScope[key];
 }
 
 // ajax
@@ -61,8 +77,11 @@ helper.getAjax = function(url,data,type) {
 // database
 helper.checkUser = function(fbUserId,callback) {
 	// console.log('checkUser');
+	var ajaxSend = helper.getAjax('php/check-user.php',fbUserId,'JSON');
 
-	var ajax = helper.getAjax('php/check-user.php',fbUserId,'JSON');
-
-	ajax.done(callback);
+	var ajaxComplete = ajaxSend.done(callback);
+	
+	ajaxComplete.done(function() {
+		// console.log('checkUser done');
+	});
 }

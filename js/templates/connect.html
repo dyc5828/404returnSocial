@@ -1,9 +1,10 @@
-<login>
-	<div class="container" ng-controller="LoginCtrl">
+<!-- <div id="fb-root"></div> -->
+<login ng-controller="ConnectCtrl">
+	<div class="container">
 		<!-- login -->
 
 		<div id="social-connect">
-			<div ng-class="{hidden: !fbLog}" class="hidden">
+			<div ng-if="$parent.showFB">
 				<div class="login-title">
 					Login with Facbook
 				</div>
@@ -26,11 +27,11 @@
 				<div class="social-input">
 					<label for="twitterid">
 						<img class="login-icon" src="asset/twitter.png"/>
-						<!-- {{userids.twitterid}} -->
+						<!-- {{userInfo.twitter}} -->
 					</label>
 					<input
 						id="twitterid"
-						ng-model="userids.twitterid"
+						ng-model="userInfo.twitter"
 						name= "twitter"
 						type="text"
 					/>
@@ -38,11 +39,11 @@
 				<div class="social-input">
 					<label for="instagramid">
 						<img class="login-icon" src="asset/instagram.png"/>
-						<!-- {{userids.instagramid}} -->
+						<!-- {{userInfo.instagram}} -->
 					</label>
 					<input
 						id="instagramid"
-						ng-model="userids.instagramid"
+						ng-model="userInfo.instagram"
 						name= "instagram"
 						type="text"
 					/>
@@ -50,11 +51,11 @@
 				<div class="social-input">
 					<label for="pinterestid">
 						<img class="login-icon" src="asset/pinterest.png"/>
-						<!-- {{userids.pinterestid}} -->
+						<!-- {{userInfo.pinterest}} -->
 					</label>
 					<input
 						id="pinterestid"
-						ng-model="userids.pinterestid"
+						ng-model="userInfo.pinterest"
 						name= "pinterest"
 						type="text"
 					/>

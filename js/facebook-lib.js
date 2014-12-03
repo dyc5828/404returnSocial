@@ -9,83 +9,56 @@ statusChangeCallback = function(response) {
 
     var fbSvc = helper.ngSvc('facebook');
     var userSvc = helper.ngSvc('user');
-    var buildSvc = helper.ngSvc('build');
+
+    // var buildSvc = helper.ngSvc('build');
     // console.log(buildSvc);
 
     if (response.status === 'connected') {
-		// Logged into your app and Facebook.
 		// console.log('fb connected');
-
+		
 		fbSvc.setToken(response.authResponse.accessToken);
-
-		// helper.updateSC('LoginCtrl','fbLog', false);
-		// helper.updateSC('LoginCtrl','userids.twitterid','bacon');
-		helper.ngRtSC()['fbLog'] = false;
-		helper.ngRtSC().$apply();
+		helper.updateSC('BkgdCtrl','showFB',false);
 
 		fbSvc.getMe(function(response) {
+			// console.log('/me callback');
 			// console.log(response);
-			helper.updateSC('HeaderCtrl','username',response.first_name);
 
-			fbSvc.setUserid(response.id);
-			// console.log(fbSvc.getUserid());
+			// set user info
+			fbSvc.setId(response.id);
+			helper.updateSC('BkgdCtrl','username',response.first_name);
 			
+			// check for user in DB
 			helper.checkUser(response.id, function(response) {
-				// console.log('callback');
+				// console.log('checkUser callback');
 				// console.log(response);
 
-				var userids = {
-					twitterid: response.twitter,
-					instagramid: response.instagram,
-					pinterestid: response.pinterest
+				var user = {
+					id: response.id,
+					twitter: response.twitter,
+					instagram: response.instagram,
+					pinterest: response.pinterest
 				};
+				// console.log(user);
 
-				// helper.updateSC('LoginCtrl','userids',userids);
-				helper.ngRtSC()['userids'] = userids;
-				helper.ngRtSC().$apply();
+				userSvc.setAll(user);
+				helper.ngSC('BkgdCtrl').$apply();
 
-				userSvc.setID(response.id);
-
-				buildSvc.getFeeds(response);
+				helper.updateSC('BkgdCtrl','userReady',true);
 			});
 		});
 
-		fbSvc.getPosts(function(response) {
-			// console.log('get facebook');
-			// console.log(response);
-
-			var result = response.data;
-			// console.log(result);
-
-			var posts = fbSvc.resolveDate(result);
-			// console.log(posts);
-
-			posts = fbSvc.cleanPosts(posts);
-			// console.log(posts);
-			// helper.updateSC('FeedCtrl','posts',posts);
-			helper.ngRtSC()['posts'] = posts;
-			helper.ngRtSC().$apply();
-			console.log('posts done');
-		});
     } else if (response.status === 'not_authorized') {
-		// The person is logged into Facebook, but not your app.
 		// console.log('fb not auth');
 
-		helper.updateSC('HeaderCtrl','username','Please authorize our app');
-
-		// helper.updateSC('LoginCtrl','fbLog', false);
-		helper.ngRtSC()['fbLog'] = false;
-		helper.ngRtSC().$apply();
+		helper.updateSC('BkgdCtrl','username','Please authorize our app');
+		helper.updateSC('BkgdCtrl','showFB',false);
+		helper.updateSC('BkgdCtrl','userReady','none');
     } else {
-		// The person is not logged into Facebook, so we're not sure if
-		// they are logged into this app or not.
 		// console.log('fb not log');
 
-		helper.updateSC('HeaderCtrl','username','Please log in');
-
-		// helper.updateSC('LoginCtrl','fbLog', true);
-		helper.ngRtSC()['fbLog'] = true;
-		helper.ngRtSC().$apply();
+		helper.updateSC('BkgdCtrl','username','Please log in');
+		helper.updateSC('BkgdCtrl','showFB',true);
+		helper.updateSC('BkgdCtrl','userReady','none');
     }
 }
 
@@ -98,6 +71,7 @@ checkLoginState = function() {
 
 fbInit = function(app) {
 	// console.log('facebook.init api.js');
+	// console.log(app);
 
 	FB.init({
 		appId      : app.id, // app id

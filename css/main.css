@@ -43,6 +43,18 @@ a {
 	/*background-color: #DDD;*/
 }
 
+/*fb safe*/
+/*
+#fb_login_button { 
+    width: 80px; 
+}
+#fb_login_button span, 
+#fb_login_button iframe {.
+    width: 80px !important;
+    height: 25px !important;
+}
+*/
+
 /*
  * HEADER CSS
  */

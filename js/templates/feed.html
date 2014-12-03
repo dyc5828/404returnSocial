@@ -1,7 +1,8 @@
 <div class="container" ng-controller="FeedCtrl">
 	<!-- main -->
 
-	<div class="item" ng-repeat="item in items | orderBy:'date':true">
+	<div ng-if="!userReady">NOT READY!</div>
+	<div class="item" ng-repeat="item in master | orderBy:'date':true">
 
 		<div class="item-text">
 
@@ -11,7 +12,7 @@
 					<img ng-click="test()" class="icon-img" ng-src="asset/{{item.type}}.png"/>
 				</div><!-- item-icon -->
 				<div class="item-title">{{item.title}}</div>
-				<div class="item-date">{{item.date}}</div>
+				<div class="item-date">{{item.time}}</div>
 
 				<div class="clear"></div>
 			</div><!-- item-top -->
