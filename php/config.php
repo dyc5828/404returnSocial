@@ -22,16 +22,16 @@ if(SERVER == 'localhost') {
 	$INSTAGRAM['client_id'] = '34c1dbb66e944743bdb531609e6653e8'; //instagram client id
 } else {
 	// echo 'server config';
-	define('DIR', 'http://itp404.dchenportal.com/'); //base dir
+	define('DIR', 'http://itp.dchenportal.com/returnSocial/'); //base dir
 	define('JQ', 'http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js'); //jquery google min
 	$FB = [];
 	$FB['app_id'] = '544842565653415'; //fb app id
 	$FB['app_secret'] = 'ed649a8655171df1e0e8f1c5f605d1ce'; //fb app secret
 	$TWITTER = [];
-	$TWITTER['app_key'] = ''; //twitter app key
-	$TWITTER['app_secret'] = ''; //twitter app secret
+	$TWITTER['app_key'] = 'AmKsHckwn2HUDrrRXuQDcC242'; //twitter app key
+	$TWITTER['app_secret'] = 'uVk8aMzNny8P0FopMC72i6PlieZUGQB4dwpOc9kemXMl0fh9Rm'; //twitter app secret
 	$INSTAGRAM = [];
-	$INSTAGRAM['client_id'] = ''; //instagram client id
+	$INSTAGRAM['client_id'] = 'a7adc452b3db45d8bbfabc388070b578'; //instagram client id
 }
 
 /*

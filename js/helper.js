@@ -26,6 +26,9 @@ helper.updateSC = function(ctrl,key,val) {
 helper.ngSvc = function(name) {
 	return angular.element(document.body).injector().get(name);
 }
+helper.ngRtSC = function() {
+	return angular.element(document).scope()
+}
 
 // ajax
 helper.getAjax = function(url,data,type) {

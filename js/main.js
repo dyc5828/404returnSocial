@@ -9,6 +9,18 @@ var app = angular.module('social', ['ngRoute']);
  */
 app.config(function($routeProvider) {
 	//
+	$routeProvider
+    .when('/connect', { //mysite.com/#/gradebook
+      templateUrl: 'js/templates/connect.html',
+      controller: 'LoginCtrl'
+    })
+    .when('/feed', {
+      templateUrl: 'js/templates/feed.html',
+      controller: 'FeedCtrl'
+    })
+    .otherwise({
+      redirectTo: 'connect'
+    })
 });
 
 /*
@@ -25,6 +37,7 @@ app.run(function($window,$document,$rootScope) {
 	$rootScope.userReady = {
 		test: 'test',
 	};
+	$rootScope.fbLog = true;
 
 	$document.ready(function() {
 		// console.log('DOM READY');
@@ -84,79 +97,88 @@ app.controller('HeaderCtrl', function($document, $scope) {
 
 app.controller('LoginCtrl', function($window, $document, $rootScope, $scope, user) {
 	//
-	$scope.fbLog = true;
+	$scope.fbLog = $rootScope.fbLog;
 
 	$scope.connect = function() {
 		console.log('connect()');
 		// console.log(user.getAll());
 
 		$scope.userids.id = user.getID();
-		console.log($scope.userids);
+		// console.log($scope.userids);
 
 		// ajax request - save userids
 		user.addConnect($scope.userids).then(function(response) {
 			// var result = response.data;
 			// console.log(result);
 		});
+		
+		var userid = {
+			twitter: $scope.userids.twitterid,
+			instagram: $scope.userids.instagramid,
+			pinterest: $scope.userids.pinterestid
+		}
 
-		// push changes to rootScope
-		$rootScope.$broadcast('userReady', $scope.userids);
-		// console.log($rootScope.userReady);
-		// console.log($scope.userReady);
-		// console.log($rootScope.userids);
-		console.log($scope.userids);
+		user.setRest(userid);
+		// var check = user.getAll().twitter;
+		// console.log(check);
+
+		// broadcast rootscope
+		// $rootScope.$broadcast('userReady', $scope.userids);
+		$rootScope.$broadcast('userReady');
 
 		// route to feed
-		$window.location.href = '#/lol';
+		$window.location.href = '#/feed';
+		console.log('after $window loc href');
 	}
 });
 
 app.controller('FeedCtrl', function($rootScope, $scope, build, user, facebook, twitter, pinterest, instagram) {
 	//
-	$scope.feeds = [];
-	$scope.posts = [];
-	$scope.items = [];
+	$scope.feeds = build.getFeed();
+	$scope.posts = $rootScope.posts;
+	$scope.items = []
+
+	$scope.user = user.getAll();
 
 	// listen for rootScope broadcast
-	$scope.$on('userReady', function(response) {
+	$rootScope.$on('userReady', function(response) {
 		console.log('userReady changed');
-		console.log(response);
-		// console.log($rootScope.userReady);
-		// console.log($scope.userReady);
-		// console.log($rootScope.userids);
-		console.log($scope.userids);
+	// 	console.log(response);
+	// 	// console.log($scope.user);
 
 		var user = {
-			twitter: $scope.userReady.twitterid,
-			instagram: $scope.userReady.instagramid,
-			pinterest: $scope.userReady.pinterestid,
+			twitter: $scope.user.twitter,
+			instagram: $scope.user.instagram,
+			pinterest: $scope.user.pinterest,
 		}
+	// 	// console.log(user)
 
-		// rebuild posts
-		// build.getFeeds(user);
-	},true);
+	// 	// rebuild posts
+		build.getFeeds(user);
+	});
 
-	$scope.$watch('posts', function() {
-		// console.log('posts changed');
-		$scope.items = build.setItems($scope.posts,$scope.feeds);
-	},true);
+	// $scope.$watch('posts', function() {
+	// 	console.log('posts changed');
+	// 	$scope.items = build.setItems($scope.posts,$scope.feeds);
+	// },true);
 
 	$scope.$watch('feeds', function() {
-		// console.log('feeds changed');
+		console.log('feeds changed');
+		// console.log($scope.feeds);
 		$scope.items = build.setItems($scope.posts,$scope.feeds);
 	},true);
 
 	$scope.$watch('items', function() {
-		// console.log('items updated');
+		console.log('items updated');
 		// console.log($scope.items);
 	})
 
-	$scope.feeds = build.getFeed();
+	// $scope.feeds = build.getFeed();
 
 	$scope.test= function() {
 		// console.log('test');
-		console.log($scope.posts);
-		console.log($scope.feeds);
+		// console.log($scope.posts);
+		// console.log($scope.feeds);
 	}
 });
 
@@ -172,13 +194,13 @@ app.factory('user', function($http,$rootScope) {
 	// console.log('user factory');
 	var prv = {
 		ID: null,
-		// twitter: null,
-		// instagram: null,
-		// pinterest: null,
+		twitter: null,
+		instagram: null,
+		pinterest: null,
 	}
 
 	function addConnect(user) {
-		console.log('addConnect');
+		// console.log('addConnect');
 
 		var config =  {
 			method: 'GET',
@@ -200,23 +222,31 @@ app.factory('user', function($http,$rootScope) {
 		prv.ID = id;
 	}
 
+	function setRest(ids) {
+		// console.log('setRest');
+		prv.twitter = ids.twitter;
+		prv.instagram = ids.instagram;
+		prv.pinterest = ids.pinterest;
+	}
+
 	// getter
 	function getID() {
-		console.log('getID');
+		// console.log('getID');
 		return prv.ID;
 	}
 
-	// function getAll() {
-	// 	console.log('getAll');
-	// 	return prv;
-	// }
+	function getAll() {
+		// console.log('getAll');
+		return prv;
+	}
 
 	// factory return
 	return {
 		addConnect: addConnect,
 		setID: setID,
+		setRest: setRest,
 		getID: getID,
-		// getAll: getAll,
+		getAll: getAll,
 	}
 });
 
@@ -273,6 +303,7 @@ app.factory('facebook', function($window) {
 			if (item.place != null) {
 				clean.place = item.place.name;
 				clean.address = item.place.location.city + ', ' + item.place.location.state;
+				clean.aux = 'At ' + item.place.name + ' in ' + clean.address;
 			}
 
 			// set type
@@ -307,6 +338,7 @@ app.factory('facebook', function($window) {
 	}
 
 	function getPosts(callback) {
+		console.log('getPosts');
 		var feed = '/me/posts?limit=100&access_token=' + prv.Token;
 		// console.log(feed);
 
@@ -347,10 +379,15 @@ app.factory('twitter', function($http) {
 			item.entities.hashtags.forEach(function(tag) {
 				clean.tags.push(tag.text);
 			});
+			var conc = 'Tags: ';
+			clean.tags.forEach(function(tag) {
+				conc += '#'+tag+' ';
+			})
+			clean.aux = conc; 
 			// console.log(item.entities.hashtags);
 
 			// set type
-			clean.type = 'tweet';
+			clean.type = 'twitter';
 
 			// console.log(clean);
 			cleaned.push(clean);
@@ -421,6 +458,11 @@ app.factory('instagram', function($http) {
 			item.tags.forEach(function(tag) {
 				clean.tags.push(tag);
 			});
+			var conc = 'Tags: ';
+			clean.tags.forEach(function(tag) {
+				conc += '#'+tag+' ';
+			})
+			clean.aux = conc; 
 
 			// console.log(clean);
 			cleaned.push(clean);
@@ -431,6 +473,7 @@ app.factory('instagram', function($http) {
 
 	function resolveDate(media) {
 		// console.log('resolveDate()');
+		// console.log(media);
 		media.forEach(function(item) {
 			var rawTime = item.caption.created_time;
 			// console.log(rawTime);
@@ -469,6 +512,8 @@ app.factory('pinterest', function($http,$window) {
 	//
 	function cleanPins(pins) {
 		// console.log('cleanPins');
+		console.log(pins);
+
 		var cleaned = [];
 		pins.forEach(function(item) {
 			var clean = {};
@@ -485,9 +530,12 @@ app.factory('pinterest', function($http,$window) {
 			// pass image
 			clean.image = item.src;
 
+			// set message
+			clean.message = item.desc;
+
 			// pass board
 			clean.board = item.board.name;
-
+			clean.aux = 'Pinned On: '+clean.board;
 
 			// console.log(clean);
 			cleaned.push(clean);
@@ -570,9 +618,12 @@ app.factory('build', function($q, facebook, twitter, instagram, pinterest, user)
 	}
 
 	function getFeeds(user) {
-		console.log(user);
+		console.log('getFeeds');
 		// wipe array
-		data.feed.length = 0;
+		while(data.feed > 0) {
+			data.feed.pop();
+		}
+		// data.feed = [];
 
 		var twitterid = user.twitter;
 		var instagramid = user.instagram;
@@ -583,7 +634,7 @@ app.factory('build', function($q, facebook, twitter, instagram, pinterest, user)
 		var instagramPromise;
 
 		if(twitterid != null && twitterid != '') {
-			console.log('get twitter');
+			// console.log('get twitter');
 
 			twitterPromise = twitter.get(twitterid).then(function(response) {
 				var result = response.data;
@@ -605,7 +656,7 @@ app.factory('build', function($q, facebook, twitter, instagram, pinterest, user)
 		}
 
 		if(instagramid != null && instagramid != '') {
-			console.log('get instagram');
+			// console.log('get instagram');
 
 			instagramPromise = instagram.get(instagramid).then(function(response) {
 				var result = response.data;
@@ -626,7 +677,7 @@ app.factory('build', function($q, facebook, twitter, instagram, pinterest, user)
 		}
 
 		if(pinterestid != null && pinterestid != '') {
-			console.log('get pinterest');
+			// console.log('get pinterest');
 
 			pinterestPromise = pinterest.get(pinterestid).then(function(response) {
 				var result = response.data;

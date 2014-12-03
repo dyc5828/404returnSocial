@@ -1,0 +1,76 @@
+<login>
+	<div class="container" ng-controller="LoginCtrl">
+		<!-- login -->
+
+		<div id="social-connect">
+			<div ng-class="{hidden: !fbLog}" class="hidden">
+				<div class="login-title">
+					Login with Facbook
+				</div>
+				<div class="login-fb">
+					<fb:login-button
+						scope="public_profile,email,read_stream"
+						onlogin="checkLoginState();"
+						data-size="large"
+						ndata-max-rows="1"
+						ndata-show-faces="true">
+					</fb:login-button>
+				</div>
+			</div><!-- facebookEnable -->
+
+			<div class="login-title">
+				Connect More
+			</div>
+
+			<form role="form" ng-submit="connect()">
+				<div class="social-input">
+					<label for="twitterid">
+						<img class="login-icon" src="asset/twitter.png"/>
+						<!-- {{userids.twitterid}} -->
+					</label>
+					<input
+						id="twitterid"
+						ng-model="userids.twitterid"
+						name= "twitter"
+						type="text"
+					/>
+				</div><!-- social-input -->
+				<div class="social-input">
+					<label for="instagramid">
+						<img class="login-icon" src="asset/instagram.png"/>
+						<!-- {{userids.instagramid}} -->
+					</label>
+					<input
+						id="instagramid"
+						ng-model="userids.instagramid"
+						name= "instagram"
+						type="text"
+					/>
+				</div><!-- social-input -->
+				<div class="social-input">
+					<label for="pinterestid">
+						<img class="login-icon" src="asset/pinterest.png"/>
+						<!-- {{userids.pinterestid}} -->
+					</label>
+					<input
+						id="pinterestid"
+						ng-model="userids.pinterestid"
+						name= "pinterest"
+						type="text"
+					/>
+				</div><!-- social-input -->
+
+				<!-- <div ng-if="!twitterid">twitter test</div> -->
+
+				<div class="clear"></div>
+				<input type="submit" value="Connect"/>
+
+				<div class="clear"></div>
+			</form>
+
+			<div class="clear"></div>
+		</div><!-- social-id -->
+
+		<div class="clear"></div>
+	</div><!-- container -->
+</login>

@@ -16,10 +16,10 @@ if(config.SERVER == 'localhost') {
 	config.INSID = '34c1dbb66e944743bdb531609e6653e8'; //instagram client id
 } else {
 	// server config
-	config.DIR = 'http://itp404.dchenportal.com/'; //base dir
+	config.DIR = 'http://itp.dchenportal.com/returnSocial/'; //base dir
 	config.FBID = '544842565653415'; //fb app id
 	config.FBVER = 'v2.2'; //fb sdk ver
-	config.INSID = ''; //instagram client id
+	config.INSID = 'a7adc452b3db45d8bbfabc388070b578'; //instagram client id
 }
 
 

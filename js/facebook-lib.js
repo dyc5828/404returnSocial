@@ -18,8 +18,10 @@ statusChangeCallback = function(response) {
 
 		fbSvc.setToken(response.authResponse.accessToken);
 
-		helper.updateSC('LoginCtrl','fbLog', false);
-		helper.updateSC('LoginCtrl','userids.twitterid','bacon');
+		// helper.updateSC('LoginCtrl','fbLog', false);
+		// helper.updateSC('LoginCtrl','userids.twitterid','bacon');
+		helper.ngRtSC()['fbLog'] = false;
+		helper.ngRtSC().$apply();
 
 		fbSvc.getMe(function(response) {
 			// console.log(response);
@@ -38,7 +40,9 @@ statusChangeCallback = function(response) {
 					pinterestid: response.pinterest
 				};
 
-				helper.updateSC('LoginCtrl','userids',userids);
+				// helper.updateSC('LoginCtrl','userids',userids);
+				helper.ngRtSC()['userids'] = userids;
+				helper.ngRtSC().$apply();
 
 				userSvc.setID(response.id);
 
@@ -58,7 +62,10 @@ statusChangeCallback = function(response) {
 
 			posts = fbSvc.cleanPosts(posts);
 			// console.log(posts);
-			helper.updateSC('FeedCtrl','posts',posts);
+			// helper.updateSC('FeedCtrl','posts',posts);
+			helper.ngRtSC()['posts'] = posts;
+			helper.ngRtSC().$apply();
+			console.log('posts done');
 		});
     } else if (response.status === 'not_authorized') {
 		// The person is logged into Facebook, but not your app.
@@ -66,7 +73,9 @@ statusChangeCallback = function(response) {
 
 		helper.updateSC('HeaderCtrl','username','Please authorize our app');
 
-		helper.updateSC('LoginCtrl','fbLog', false);
+		// helper.updateSC('LoginCtrl','fbLog', false);
+		helper.ngRtSC()['fbLog'] = false;
+		helper.ngRtSC().$apply();
     } else {
 		// The person is not logged into Facebook, so we're not sure if
 		// they are logged into this app or not.
@@ -74,7 +83,9 @@ statusChangeCallback = function(response) {
 
 		helper.updateSC('HeaderCtrl','username','Please log in');
 
-		helper.updateSC('LoginCtrl','fbLog', true);
+		// helper.updateSC('LoginCtrl','fbLog', true);
+		helper.ngRtSC()['fbLog'] = true;
+		helper.ngRtSC().$apply();
     }
 }
 

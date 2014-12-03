@@ -70,7 +70,7 @@ include_once 'php/config.php'; // must have
 		</div><!-- user -->
 
 		<div id="control">
-			<div id="app">return.social</div>
+			<div id="app"><a ng-href="#/feed">return.social</a></div>
 			<img class="header-icon" src="asset/facebook.png"/>
 			<img class="header-icon" src="asset/twitter.png"/>
 			<img class="header-icon" src="asset/instagram.png"/>
@@ -171,7 +171,7 @@ include_once 'php/config.php'; // must have
 				<div class="item-top">
 
 					<div class="item-icon">
-						<img ng-click="test()" class="icon-img" src="asset/facebook.png"/>
+						<img ng-click="test()" class="icon-img" ng-src="asset/{{item.type}}.png"/>
 					</div><!-- item-icon -->
 					<div class="item-title">{{item.title}}</div>
 					<div class="item-date">{{item.date}}</div>
@@ -182,7 +182,7 @@ include_once 'php/config.php'; // must have
 				<div class="item-msg">
 					{{item.message}}
 				</div>
-				<div class="item-aux">Aux info</div>
+				<div class="item-aux">{{item.aux}}</div>
 
 				<div class="clear"></div>
 			</div><!-- item-text -->
